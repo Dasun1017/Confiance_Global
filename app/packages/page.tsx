@@ -8,10 +8,10 @@ export default function PackagesPage() {
       <SiteHeader />
       <section className="page-hero packages-hero">
         <p className="eyebrow">Tour packages</p>
-        <h1>Private Sri Lanka routes for every travel style</h1>
+        <h1>Sri Lanka tour packages with private transport</h1>
         <p className="page-lead">
-          Start from one of these routes, then adjust hotels, travel pace,
-          activities and dates around your group.
+          Choose a ready-made route, then adjust duration, pickup location,
+          vehicle, rooms, activities and price around your group.
         </p>
       </section>
       <section className="section package-section">

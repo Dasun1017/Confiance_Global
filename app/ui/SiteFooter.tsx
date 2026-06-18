@@ -1,11 +1,21 @@
 import Link from "next/link";
+import { business, navItems } from "../data/siteContent";
 
 export function SiteFooter() {
   return (
     <footer className="footer">
-      <strong>Yes Lanka Travels</strong>
-      <span>Private tours, transfers and custom holidays in Sri Lanka.</span>
-      <Link href="/">Back to home</Link>
+      <div>
+        <strong>{business.name}</strong>
+        <span>{business.tagline}</span>
+      </div>
+      <div className="footer-links">
+        {navItems.slice(1, 5).map((item) => (
+          <Link href={item.href} key={item.href}>
+            {item.label}
+          </Link>
+        ))}
+      </div>
+      <Link href="/contact">Contact / Book Now</Link>
     </footer>
   );
 }

@@ -7,7 +7,9 @@ export function Testimonials() {
         <article className="testimonial" key={item.name}>
           <p>&quot;{item.quote}&quot;</p>
           <strong>{item.name}</strong>
-          <span>{item.country}</span>
+          <span>
+            {item.country} / {item.source}
+          </span>
         </article>
       ))}
     </div>

@@ -1,15 +1,16 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { business } from "../data/siteContent";
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
-  const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@yeslankatravels.com";
+  const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || business.email;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const subject = encodeURIComponent("Website enquiry - Yes Lanka Travels");
+    const subject = encodeURIComponent(`Website enquiry - ${business.name}`);
     const body = encodeURIComponent(
       `Name: ${data.get("name")}\nEmail: ${data.get("email")}\n\n${data.get(
         "message"
@@ -43,11 +44,11 @@ export function ContactForm() {
           required
           suppressHydrationWarning
           rows={5}
-          placeholder="Ask about transfers, packages, hotels, or custom routes."
+          placeholder="Ask about airport transfers, vehicle hire, rooms, packages, or custom routes."
         />
       </label>
       <button className="secondary-button" type="submit" suppressHydrationWarning>
-        Email Us
+        Email Confiance Global
       </button>
       {sent ? <p className="form-status">Opening your email app.</p> : null}
     </form>
