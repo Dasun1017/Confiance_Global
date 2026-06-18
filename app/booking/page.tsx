@@ -7,11 +7,11 @@ export default function BookingPage() {
     <main>
       <SiteHeader />
       <section className="page-hero booking-hero">
-        <p className="eyebrow">Quick booking request</p>
-        <h1>Tell us your travel dates</h1>
+        <p className="eyebrow">Contact / Book now</p>
+        <h1>Send your tour, transfer, vehicle or room request</h1>
         <p className="page-lead">
-          Send your dates, group size and preferred tour style. Your message
-          opens in WhatsApp so we can reply quickly with an itinerary.
+          Fill the quick form and it opens in WhatsApp with your details so we
+          can reply with availability and a clear price.
         </p>
       </section>
       <section className="section booking-section">

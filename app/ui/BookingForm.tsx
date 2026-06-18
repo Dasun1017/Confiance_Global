@@ -1,24 +1,39 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { airportTransfers, business, tourPackages } from "../data/siteContent";
 
 type BookingState = {
+  service: string;
   name: string;
+  whatsapp: string;
   email: string;
   country: string;
   date: string;
-  travelers: string;
+  flightNumber: string;
+  pickup: string;
+  drop: string;
+  passengers: string;
+  luggage: string;
+  vehicle: string;
   packageName: string;
   message: string;
 };
 
 const initialState: BookingState = {
+  service: "Airport Pickup & Drop",
   name: "",
+  whatsapp: "",
   email: "",
   country: "",
   date: "",
-  travelers: "2",
-  packageName: "Island Explorer",
+  flightNumber: "",
+  pickup: "Bandaranaike International Airport",
+  drop: "Negombo",
+  passengers: "2",
+  luggage: "2",
+  vehicle: "Car with driver",
+  packageName: "Custom Sri Lanka Round Tour",
   message: ""
 };
 
@@ -26,18 +41,26 @@ export function BookingForm() {
   const [form, setForm] = useState(initialState);
   const [status, setStatus] = useState("");
 
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "94771234567";
+  const whatsappNumber =
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || business.whatsappNumber;
 
   const whatsappLink = useMemo(() => {
     const text = [
-      "Hello Yes Lanka Travels, I want to plan a Sri Lanka tour.",
+      `Hello ${business.name}, I want to book or request a price.`,
+      `Service: ${form.service}`,
       `Name: ${form.name}`,
+      `WhatsApp number: ${form.whatsapp}`,
       `Email: ${form.email}`,
       `Country: ${form.country}`,
-      `Travel date: ${form.date}`,
-      `Travelers: ${form.travelers}`,
-      `Package: ${form.packageName}`,
-      `Message: ${form.message || "Please suggest an itinerary."}`
+      `Arrival/departure date: ${form.date}`,
+      `Flight number: ${form.flightNumber || "Not provided"}`,
+      `Pickup location: ${form.pickup}`,
+      `Drop location: ${form.drop}`,
+      `Passengers: ${form.passengers}`,
+      `Luggage count: ${form.luggage}`,
+      `Vehicle preference: ${form.vehicle}`,
+      `Tour/package: ${form.packageName}`,
+      `Notes: ${form.message || "Please send availability and price."}`
     ].join("\n");
 
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
@@ -49,12 +72,26 @@ export function BookingForm() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("Your request is ready. Opening WhatsApp with your trip details.");
+    setStatus("Your request is ready. Opening WhatsApp with your details.");
     window.open(whatsappLink, "_blank", "noopener,noreferrer");
   }
 
   return (
     <form className="booking-form" onSubmit={handleSubmit}>
+      <label>
+        Service
+        <select
+          suppressHydrationWarning
+          value={form.service}
+          onChange={(event) => updateField("service", event.target.value)}
+        >
+          <option>Airport Pickup & Drop</option>
+          <option>Tour Package</option>
+          <option>Vehicle Hire</option>
+          <option>Room / Stay</option>
+          <option>Custom Travel Planning</option>
+        </select>
+      </label>
       <label>
         Full name
         <input
@@ -66,9 +103,18 @@ export function BookingForm() {
         />
       </label>
       <label>
-        Email
+        WhatsApp number
         <input
           required
+          suppressHydrationWarning
+          value={form.whatsapp}
+          onChange={(event) => updateField("whatsapp", event.target.value)}
+          placeholder="+94..."
+        />
+      </label>
+      <label>
+        Email
+        <input
           suppressHydrationWarning
           type="email"
           value={form.email}
@@ -86,7 +132,7 @@ export function BookingForm() {
         />
       </label>
       <label>
-        Travel date
+        Arrival/departure date
         <input
           required
           suppressHydrationWarning
@@ -96,26 +142,88 @@ export function BookingForm() {
         />
       </label>
       <label>
-        Travelers
+        Flight number
         <input
-          min="1"
           suppressHydrationWarning
-          type="number"
-          value={form.travelers}
-          onChange={(event) => updateField("travelers", event.target.value)}
+          value={form.flightNumber}
+          onChange={(event) => updateField("flightNumber", event.target.value)}
+          placeholder="UL / QR / EK..."
         />
       </label>
       <label>
-        Tour style
+        Pickup location
+        <input
+          required
+          suppressHydrationWarning
+          value={form.pickup}
+          onChange={(event) => updateField("pickup", event.target.value)}
+          placeholder="Airport, hotel, city..."
+          list="transfer-routes"
+        />
+        <datalist id="transfer-routes">
+          {airportTransfers.map((route) => (
+            <option value={route} key={route} />
+          ))}
+        </datalist>
+      </label>
+      <label>
+        Drop location
+        <input
+          required
+          suppressHydrationWarning
+          value={form.drop}
+          onChange={(event) => updateField("drop", event.target.value)}
+          placeholder="Negombo, Colombo, Kandy..."
+        />
+      </label>
+      <label>
+        Number of passengers
+        <input
+          min="1"
+          required
+          suppressHydrationWarning
+          type="number"
+          value={form.passengers}
+          onChange={(event) => updateField("passengers", event.target.value)}
+        />
+      </label>
+      <label>
+        Luggage count
+        <input
+          min="0"
+          suppressHydrationWarning
+          type="number"
+          value={form.luggage}
+          onChange={(event) => updateField("luggage", event.target.value)}
+        />
+      </label>
+      <label>
+        Vehicle preference
+        <select
+          suppressHydrationWarning
+          value={form.vehicle}
+          onChange={(event) => updateField("vehicle", event.target.value)}
+        >
+          <option>Car with driver</option>
+          <option>Van with driver</option>
+          <option>Luxury vehicle</option>
+          <option>Mini coach / group vehicle</option>
+          <option>Please recommend</option>
+        </select>
+      </label>
+      <label className="wide-field">
+        Tour package or room request
         <select
           suppressHydrationWarning
           value={form.packageName}
           onChange={(event) => updateField("packageName", event.target.value)}
         >
-          <option>Island Explorer</option>
-          <option>Wild Sri Lanka</option>
-          <option>Honeymoon Coast</option>
-          <option>Custom Tour</option>
+          {tourPackages.map((tour) => (
+            <option key={tour.title}>{tour.title}</option>
+          ))}
+          <option>Tourist Double Room</option>
+          <option>Family Tourist Room</option>
+          <option>Transit Stay</option>
         </select>
       </label>
       <label className="wide-field">
@@ -125,7 +233,7 @@ export function BookingForm() {
           rows={5}
           value={form.message}
           onChange={(event) => updateField("message", event.target.value)}
-          placeholder="Tell us your must-see places, hotel level, or budget."
+          placeholder="Tell us arrival time, hotel name, room nights, must-see places or budget."
         />
       </label>
       <button className="primary-button wide-field" type="submit" suppressHydrationWarning>

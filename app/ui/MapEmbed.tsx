@@ -1,5 +1,7 @@
+import { business } from "../data/siteContent";
+
 export function MapEmbed() {
-  const query = process.env.NEXT_PUBLIC_GOOGLE_MAPS_QUERY || "Colombo, Sri Lanka";
+  const query = process.env.NEXT_PUBLIC_GOOGLE_MAPS_QUERY || business.address;
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const customEmbedUrl = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL;
   const src =
@@ -15,7 +17,7 @@ export function MapEmbed() {
   return (
     <div className="map-card">
       <iframe
-        title="Yes Lanka Travels location on Google Maps"
+        title="Confiance Global location on Google Maps"
         src={src}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"

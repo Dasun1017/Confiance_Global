@@ -27,9 +27,29 @@ export function PackageGrid({ showDetails = false }: PackageGridProps) {
             <p>{showDetails ? tour.details : tour.tone}</p>
             <span>{tour.stops}</span>
             {showDetails ? (
-              <Link className="text-link" href="/booking">
-                Request this tour
-              </Link>
+              <>
+                <dl className="spec-list">
+                  <div>
+                    <dt>Starting location</dt>
+                    <dd>{tour.start}</dd>
+                  </div>
+                  <div>
+                    <dt>Vehicle type</dt>
+                    <dd>{tour.vehicle}</dd>
+                  </div>
+                  <div>
+                    <dt>Included</dt>
+                    <dd>{tour.includes}</dd>
+                  </div>
+                  <div>
+                    <dt>Not included</dt>
+                    <dd>{tour.excludes}</dd>
+                  </div>
+                </dl>
+                <Link className="text-link" href="/booking">
+                  Book via WhatsApp
+                </Link>
+              </>
             ) : null}
           </div>
         </article>
